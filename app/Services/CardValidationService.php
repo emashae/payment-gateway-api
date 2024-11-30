@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
+use App\Models\Transaction;
 
 class CardValidationService
 {
@@ -125,7 +126,7 @@ class CardValidationService
         return $currency === 'CAD' ? 'approved' : 'declined';
     }
 
-    private function validateDuplicateTransaction($previousTransactionTimestamp, $cardNumber, $amount, $currency)
+    public function validateDuplicateTransaction($previousTransactionTimestamp, $cardNumber, $amount, $currency)
     {
         if (!$previousTransactionTimestamp) {
             return 'approved'; 
@@ -207,7 +208,7 @@ class CardValidationService
         return strpos($customerEmail, 'test') !== false ? 'declined' : 'approved';
     }
 
-    private function validateTransactionTime($transactionTime)
+    public function validateTransactionTime($transactionTime)
     {
         $transactionHour = Carbon::parse($transactionTime)->setTimezone(config('app.timezone'))->hour;
         return $transactionHour >= 20 ? 'declined' : 'approved';

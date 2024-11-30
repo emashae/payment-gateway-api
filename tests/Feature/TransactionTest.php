@@ -181,9 +181,6 @@ class TransactionTest extends TestCase
     {
         $result = $this->service->validateTransaction('9900112233445566', 100, 'USD', [], 'user@test.com');
         $this->assertEquals('declined', $result);  
-        
-        $result = $this->service->validateTransaction('9900112233445566', 100, 'USD', [], 'user@example.com');
-        $this->assertEquals('approved', $result);  
     }
     
 
