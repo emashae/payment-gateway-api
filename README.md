@@ -6,6 +6,7 @@ A simple API for handling transactions, including card number validation and mas
 
 Create a .env.testing file in the root directory of the project with the following contents:
 
+```bash
 APP_NAME=Laravel
 APP_ENV=testing
 APP_KEY=base64:YOUR_APP_KEY
@@ -31,3 +32,4 @@ MAIL_FROM_NAME="${APP_NAME}"
 QUEUE_CONNECTION=sync
 CACHE_DRIVER=array
 SESSION_DRIVER=array
+```
