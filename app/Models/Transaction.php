@@ -10,25 +10,32 @@ class Transaction extends Model
     use HasFactory;
 
     protected $fillable = [
-        'transaction_id',
-        'card_number',
+        'id',
+        'masked_card_number',
         'amount',
         'currency',
         'customer_email',
-        'status',
         'metadata',
+        'status',
+        'created_at',
+        'updated_at',
     ];
 
     protected $casts = [
-        'metadata' => 'array',
+        'masked_card_number' => 'string',
+        'metadata' => 'array', 
     ];
 
-    protected static function boot()
+    protected $hidden = [
+        'card_number',
+    ];
+
+    public $incrementing = false;
+    protected $keyType = 'string'; 
+
+    public function getCardNumberAttribute()
     {
-        parent::boot();
-        static::creating(function ($model) {
-            $model->id = (string) \Str::uuid();
-        });
+        return $this->masked_card_number;
     }
 }
 

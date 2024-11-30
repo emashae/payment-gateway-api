@@ -120,20 +120,31 @@ class CardValidationService
         return $currency === 'CAD' ? 'approved' : 'declined';
     }
 
-    private function validateDuplicateTransaction($previousTransactionTimestamp)
+    private function validateDuplicateTransaction($previousTransactionTimestamp, $cardNumber, $amount, $currency)
     {
         if (!$previousTransactionTimestamp) {
-            return 'approved';
+            return 'approved'; 
         }
 
-        $timeDifference = Carbon::now()->diffInMinutes(Carbon::parse($previousTransactionTimestamp));
-        return $timeDifference <= 10 ? 'declined' : 'approved';
+        // Check for a duplicate - last 10 minutes
+        $existingTransaction = Transaction::where('card_number', $cardNumber)
+                                        ->where('amount', $amount)
+                                        ->where('currency', $currency)
+                                        ->where('created_at', '>=', Carbon::parse($previousTransactionTimestamp)->subMinutes(10))
+                                        ->first();
+
+        if ($existingTransaction) {
+            return 'declined'; 
+        }
+
+        return 'approved'; 
     }
+
 
     private function validateMetadataPresence($metadata)
     {
         return empty($metadata) ? 'declined' : 'approved';
-    }
+    }    
 
     private function validateEmailDomain($customerEmail)
     {
@@ -193,9 +204,10 @@ class CardValidationService
 
     private function validateTransactionTime($transactionTime)
     {
-        $transactionHour = Carbon::parse($transactionTime)->hour;
+        $transactionHour = Carbon::parse($transactionTime)->setTimezone(config('app.timezone'))->hour;
         return $transactionHour >= 20 ? 'declined' : 'approved';
     }
+
 
     private function validateMetadataContainsValidKey($metadata)
     {
