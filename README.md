@@ -1,10 +1,20 @@
 # Payment Gateway API
 
-A simple API for handling transactions, including card number validation and masking.
+A simple API for handling transactions, including card number validation and masking. Below are the instructions for setting up the database, Docker environment, and the .env.testing file. Please ensure to execute the necessary Laravel commands as required.
+
+## Database Setup
+
+Create a schema named 'payment_gateway' in your database.
+Update your .env or .env.testing file with the appropriate database connection details (as shown below in the .env.testing section).
+
+## Docker Setup
+
+The Dockerfile and docker-compose.yml files are available in the root directory.
+Use these files to set up a containerized environment for your application.
 
 ## Creating the .env.testing File
 
-Create a .env.testing file in the root directory of the project with the following contents:
+For testing purposes, a separate .env.testing file ensures isolation from the development environment. Create this file in the root directory of your project with the following contents:
 
 ```bash
 APP_NAME=Laravel
