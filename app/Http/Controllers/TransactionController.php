@@ -90,4 +90,24 @@ class TransactionController extends Controller
         return substr($cardNumber, 0, 6) . str_repeat('*', 6) . substr($cardNumber, -4);
     }
 
+    /**
+     * Retrieve a transaction by its ID.
+     *
+     * @param string $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function retrieveTransaction($id)
+    {
+        // Find the transaction by ID
+        $transaction = Transaction::find($id);
+
+        // If the transaction is not found, return a 404 response
+        if (!$transaction) {
+            return response()->json([
+                'message' => 'Transaction not found.'
+            ], Response::HTTP_NOT_FOUND);
+        }
+
+        return response()->json($transaction, Response::HTTP_OK);
+    }
 }

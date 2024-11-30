@@ -9,8 +9,9 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-// Creating a transaction
+// Create transaction
 Route::post('/transactions', [TransactionController::class, 'createTransaction']);
 
-// Fetching transaction status by ID 
-Route::get('/transactions/{transactionId}', [TransactionController::class, 'getTransactionStatus']);
+// Retrieve transaction by ID 
+Route::get('transactions/{id}', [TransactionController::class, 'retrieveTransaction']);
+

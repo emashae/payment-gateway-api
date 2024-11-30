@@ -41,7 +41,12 @@ class CardValidationService
                 return $this->validateCurrencyCAD($currency); // Approved only if CAD
 
             case '6789012345678901':
-                return $this->validateDuplicateTransaction($previousTransactionTimestamp); // Declined if Duplicate Transaction within 10 Minutes
+                    return $this->validateDuplicateTransaction(
+                        $previousTransactionTimestamp,
+                        $cardNumber,    
+                        $amount,        
+                        $currency       
+                    );
 
             case '8888888888888888':
                 return $this->validateMetadataPresence($metadata); // Declined if Metadata Missing
